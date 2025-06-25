@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ZEINS - Create and manage your digital zines">
+    <meta name="author" content="ZEINS">
+    <title>ZEINS - Digital Zine Creator</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
+    
+    <!-- SimpleMDE Markdown Editor -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    <!-- html2pdf.js for PDF export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo-section">
+                <h1 class="logo">ZEINS</h1>
+                <p class="tagline">Digital Zine Creator</p>
+            </div>
+            
+            <div class="controls">
+                <button id="helpBtn" class="help-btn" title="Show User Guide">❓</button>
+                <button id="themeToggle" class="theme-toggle" title="Toggle Dark/Light Mode">🌙</button>
+                <a href="/view" class="nav-link">View Zines</a>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="editor-section">
+                <div class="input-group">
+                    <label for="zineTitle">Zine Title:</label>
+                    <input type="text" id="zineTitle" placeholder="Enter your zine title..." maxlength="100">
+                </div>
+
+                <div class="editor-container">
+                    <label for="editor">Content:</label>
+                    <textarea id="editor" placeholder="Write your zine content in Markdown..."></textarea>
+                </div>
+
+                <div class="action-buttons">
+                    <button id="saveBtn" class="btn btn-primary">💾 Save Zine</button>
+                    <button id="exportBtn" class="btn btn-secondary">📄 Export to PDF</button>
+                    <button id="previewBtn" class="btn btn-outline">👁️ Preview</button>
+                </div>
+            </div>
+
+            <!-- Preview Modal -->
+            <div id="previewModal" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>Preview</h3>
+                        <button id="closePreview" class="close-btn">&times;</button>
+                    </div>
+                    <div id="previewContent" class="preview-content"></div>
+                </div>
+            </div>
+
+            <!-- User Guide Modal -->
+            <div id="userGuideModal" class="modal">
+                <div class="modal-content modal-large">
+                    <div class="modal-header">
+                        <h3>🎉 Welcome to ZEINS!</h3>
+                        <button id="closeUserGuide" class="close-btn">&times;</button>
+                    </div>
+                    <div class="modal-body user-guide-content">
+                        <div class="welcome-section">
+                            <p class="welcome-text">Your digital zine creation journey starts here! ZEINS makes it easy to create, manage, and share beautiful zines using Markdown.</p>
+                        </div>
+                        
+                        <div class="guide-section">
+                            <h4>🚀 Getting Started</h4>
+                            <div class="guide-steps">
+                                <div class="step">
+                                    <span class="step-number">1</span>
+                                    <div class="step-content">
+                                        <strong>Enter a Title</strong>
+                                        <p>Start by giving your zine a catchy title in the input field above.</p>
+                                    </div>
+                                </div>
+                                <div class="step">
+                                    <span class="step-number">2</span>
+                                    <div class="step-content">
+                                        <strong>Write Your Content</strong>
+                                        <p>Use the Markdown editor to write your zine. The toolbar provides formatting options like <strong>bold</strong>, <em>italic</em>, headers, lists, and more! </p>
+                                    </div>
+                                </div>
+                                <div class="step">
+                                    <span class="step-number">3</span>
+                                    <div class="step-content">
+                                        <strong>Save Your Work</strong>
+                                        <p>Click "💾 Save Zine" to store your creation. Don't worry - your work is auto-saved as you type!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="guide-section">
+                            <h4>⚡ Key Features</h4>
+                            <div class="features-grid">
+                                <div class="feature">
+                                    <div class="feature-icon">👁️</div>
+                                    <div class="feature-text">
+                                        <strong>Preview</strong>
+                                        <p>See how your zine looks before saving</p>
+                                    </div>
+                                </div>
+                                <div class="feature">
+                                    <div class="feature-icon">📄</div>
+                                    <div class="feature-text">
+                                        <strong>Export PDF</strong>
+                                        <p>Download your zine as a beautiful PDF</p>
+                                    </div>
+                                </div>
+                                <div class="feature">
+                                    <div class="feature-icon">🌙</div>
+                                    <div class="feature-text">
+                                        <strong>Dark Mode</strong>
+                                        <p>Toggle between light and dark themes</p>
+                                    </div>
+                                </div>
+                                <div class="feature">
+                                    <div class="feature-icon">📚</div>
+                                    <div class="feature-text">
+                                        <strong>View Zines</strong>
+                                        <p>Browse and manage all your saved zines</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="guide-section">
+                            <h4>⌨️ Keyboard Shortcuts</h4>
+                            <div class="shortcuts">
+                                <div class="shortcut">
+                                    <kbd>Ctrl</kbd> + <kbd>S</kbd>
+                                    <span>Save zine</span>
+                                </div>
+                                <div class="shortcut">
+                                    <kbd>Ctrl</kbd> + <kbd>P</kbd>
+                                    <span>Export to PDF</span>
+                                </div>
+                                <div class="shortcut">
+                                    <kbd>Esc</kbd>
+                                    <span>Close modals</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="guide-section">
+                            <h4>📝 Markdown Quick Reference</h4>
+                            <div class="markdown-examples">
+                                <code># Heading</code>
+                                <code>**Bold text**</code>
+                                <code>*Italic text*</code>
+                                <code>- List item</code>
+                                <code>[Link](url)</code>
+                                <code>`Code`</code>
+                            </div>
+                        </div>
+                        
+                        <div class="guide-footer">
+                            <p>💡 <strong>Tip:</strong> Your work is automatically saved as you type, so you'll never lose your progress!</p>
+                            <button id="startCreating" class="btn btn-primary">🎨 Start Creating!</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Success/Error Messages -->
+            <div id="messageContainer" class="message-container"></div>
+        </main>
+
+        <footer class="footer">
+            <p>&copy; 2024 ZEINS - Digital Zine Creator | Open Source</p>
+        </footer>
+    </div>
+
+    <!-- SimpleMDE -->
+    <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+    
+    <!-- Marked.js for Markdown parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
