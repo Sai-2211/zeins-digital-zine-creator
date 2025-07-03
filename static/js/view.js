@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeTheme();
     bindEventListeners();
     loadZines();
+    updateFooterYear();
 });
 
 // Theme Management
@@ -395,5 +396,14 @@ function closeHelpModal() {
     if (helpModal) {
         helpModal.remove();
         document.body.style.overflow = 'auto';
+    }
+}
+
+// Update footer year dynamically
+function updateFooterYear() {
+    const currentYear = new Date().getFullYear();
+    const yearElement = document.getElementById('currentYear');
+    if (yearElement) {
+        yearElement.textContent = currentYear;
     }
 }

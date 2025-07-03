@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeEditor();
     bindEventListeners();
     checkFirstTimeUser();
+    updateFooterYear();
 });
 
 // Theme Management
@@ -348,4 +349,13 @@ function formatDate(dateString) {
         hour: '2-digit',
         minute: '2-digit'
     });
+}
+
+// Update footer year dynamically
+function updateFooterYear() {
+    const currentYear = new Date().getFullYear();
+    const yearElement = document.getElementById('currentYear');
+    if (yearElement) {
+        yearElement.textContent = currentYear;
+    }
 }

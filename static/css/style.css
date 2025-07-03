@@ -7,7 +7,9 @@
     --text-secondary: #6c757d;
     --text-muted: #adb5bd;
     --border-color: #dee2e6;
-    --accent-primary: #007bff;
+--accent-primary: #2a9df4;
+    --accent-gradient-start: #3fa7fb;
+    --accent-gradient-end: #6dcff6;
     --accent-secondary: #6c757d;
     --accent-success: #28a745;
     --accent-danger: #dc3545;
@@ -33,6 +35,8 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    transition: all 0.3s ease;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
@@ -70,13 +74,17 @@ body {
 .logo {
     font-size: 2rem;
     font-weight: bold;
-    color: var(--accent-primary);
+    background: linear-gradient(135deg, var(--accent-gradient-start), var(--accent-gradient-end));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     margin-bottom: 0.25rem;
+    animation: text-pop 1s ease-in-out;
 }
 
 .tagline {
     color: var(--text-secondary);
     font-size: 0.9rem;
+    animation: fade-in 1.2s forwards;
 }
 
 .controls {
@@ -213,6 +221,32 @@ body {
     gap: 0.5rem;
     transition: all 0.3s ease;
     white-space: nowrap;
+    box-shadow: var(--shadow);
+    background: linear-gradient(135deg, var(--accent-gradient-start), var(--accent-gradient-end));
+    color: white;
+    animation: button-pop 0.3s ease;
+    position: relative;
+}
+
+.btn::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.3);
+    opacity: 0;
+    transition: opacity 0.4s;
+    border-radius: 0.5rem;
+}
+
+.btn:hover::after {
+    opacity: 1;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
 }
 
 .btn-primary {
@@ -274,6 +308,7 @@ body {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(4px);
+    animation: fade-in 0.5s;
 }
 
 .modal-content {
@@ -407,6 +442,8 @@ body {
     padding: 1.5rem;
     transition: all 0.3s ease;
     cursor: pointer;
+    box-shadow: var(--shadow);
+    animation: card-entry 0.5s forwards;
 }
 
 .zine-card:hover {
@@ -520,7 +557,44 @@ body {
     margin-top: auto;
 }
 
-/* Responsive Design */
+@keyframes text-pop {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes button-pop {
+    from {
+        transform: translateY(5px);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+@keyframes card-entry {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
 @media (max-width: 768px) {
     .container {
         padding: 0 0.5rem;
@@ -759,6 +833,153 @@ kbd {
 .guide-footer p {
     margin-bottom: 1rem;
     color: var(--text-secondary);
+}
+
+/* Authentication Styles */
+.login-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--accent-gradient-start), var(--accent-gradient-end));
+    padding: 2rem;
+}
+
+.auth-form {
+    background: var(--bg-primary);
+    padding: 3rem;
+    border-radius: 1rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    animation: form-entry 0.6s ease;
+}
+
+@keyframes form-entry {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.auth-form .title {
+    text-align: center;
+    color: var(--text-primary);
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    background: linear-gradient(135deg, var(--accent-gradient-start), var(--accent-gradient-end));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.auth-form .field {
+    margin-bottom: 1.5rem;
+}
+
+.auth-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    transition: color 0.3s ease;
+}
+
+.auth-form input {
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid var(--border-color);
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.auth-form input:focus {
+    outline: none;
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 0.2rem rgba(42, 157, 244, 0.25);
+    transform: translateY(-2px);
+}
+
+.auth-form input:hover {
+    border-color: var(--accent-gradient-start);
+}
+
+.auth-form small {
+    display: block;
+    margin-top: 0.25rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.auth-form .btn {
+    width: 100%;
+    margin-top: 1rem;
+    padding: 1rem;
+    font-size: 1.1rem;
+    background: linear-gradient(135deg, var(--accent-gradient-start), var(--accent-gradient-end));
+    border: none;
+    border-radius: 0.5rem;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(42, 157, 244, 0.3);
+}
+
+.auth-form .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(42, 157, 244, 0.4);
+}
+
+.auth-form .btn:active {
+    transform: translateY(0);
+}
+
+.alt-action {
+    text-align: center;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.alt-action p {
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+.alt-action a {
+    color: var(--accent-primary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.alt-action a:hover {
+    color: var(--accent-gradient-end);
+    text-decoration: underline;
+}
+
+.error-message {
+    background-color: var(--accent-danger);
+    color: white;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-top: 1rem;
+    text-align: center;
+    font-weight: 500;
+    animation: error-shake 0.5s ease;
+}
+
+@keyframes error-shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
 }
 
 /* Responsive adjustments for user guide */
