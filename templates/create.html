@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create a Zine</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="blue-theme">
+  <header>
+    <h1>📝 Create Zine</h1>
+    <nav>
+      <a href="/">🏠 Home</a>
+      <a href="/my-zines">📁 My Zines</a>
+    </nav>
+  </header>
+  <main>
+    <form id="zine-form">
+      <label for="title">Title:</label>
+      <input type="text" id="title" name="title" required>
+
+      <label for="visibility">Visibility:</label>
+      <select id="visibility" name="visibility">
+        <option value="private">Private</option>
+        <option value="public">Public</option>
+      </select>
+
+      <label for="content">Content:</label>
+      <div id="editor">Start writing your zine here...</div>
+
+      <button type="submit">💾 Save Zine</button>
+    </form>
+  </main>
+  <footer>
+    <p>&copy; <span id="year"></span> ZEINS</p>
+  </footer>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+  <script src="/static/editor.js"></script>
+</body>
+</html>
