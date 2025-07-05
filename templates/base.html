@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ZEINS - Create and manage your digital zines">
+    <meta name="author" content="ZEINS">
+    <title>{% block title %}ZEINS - Digital Zine Creator{% endblock %}</title>
+
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+</head>
+<body>
+    <div class="main-wrapper"> {# This div can wrap all content to allow for full-page modals #}
+        <header class="header">
+            <div class="logo-section">
+                <h1 class="logo"><a href="/" aria-label="Home page">ZEINS</a></h1>
+                <p class="tagline">Digital Zine Creator</p>
+            </div>
+
+            <nav class="main-nav">
+                <a href="/" class="nav-link">📚 Explore Public</a>
+                <a href="/my-zines" class="nav-link">🗂 My Zines</a>
+                <a href="#" id="createZineBtn" class="nav-link create-zine-btn">➕ Create Zine</a> {# New button for popup #}
+            </nav>
+
+            <div class="controls">
+                <button id="helpBtn" class="help-btn" title="Show User Guide">❓</button>
+                <button id="themeToggle" class="theme-toggle" title="Toggle Dark/Light Mode">🌙</button>
+                <a href="/auth/logout" class="nav-link logout-btn">🚪 Logout</a>
+            </div>
+        </header>
+
+        <main class="main-content">
+            {% block content %}{% endblock %}
+        </main>
+
+        <footer class="footer">
+            <p>&copy; <span id="currentYear"></span> ZEINS - Digital Zine Creator | Open Source</p>
+        </footer>
+
+        <div id="messageContainer" class="message-container"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+
+    <script src="{{ url_for('static', filename='js/utils.js') }}"></script>
+
+    {% block scripts %}{% endblock %}
+
+    {% include 'partials/_create_zine_modal.html' %} {# This will be the content of former index.html #}
+    {% include 'partials/_view_zine_modal.html' %}   {# This will be the common view modal #}
+
+</body>
+</html>

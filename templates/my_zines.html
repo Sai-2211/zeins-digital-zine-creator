@@ -1,27 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Zines</title>
-  <link rel="stylesheet" href="/static/css/style.css">
-</head>
-<body class="blue-theme">
-  <header>
-    <h1>📁 My Zines</h1>
-    <nav>
-      <a href="/">🏠 Home</a>
-      <a href="/create">➕ New Zine</a>
-    </nav>
-  </header>
-  <main id="user-zines">
-    <p>Loading your personal zines...</p>
-  </main>
-  <footer>
-    <p>&copy; <span id="year"></span> ZEINS</p>
-  </footer>
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block title %}My Zines - ZEINS{% endblock %}
+
+{% block content %}
+    <div class="zines-section">
+        <div class="zines-header">
+            <h2>Your Zines</h2>
+            <button id="refreshMyZinesBtn" class="btn btn-outline btn-icon-text">
+                <span class="material-icons">refresh</span> Refresh
+            </button>
+        </div>
+
+        <div id="myZinesContainer" class="zines-grid">
+            <div class="loading">Loading your zines...</div>
+        </div>
+
+        <div id="noMyZines" class="no-zines" style="display: none;">
+            <h3>You haven't created any zines yet.</h3>
+            <p>Time to unleash your creativity!</p>
+            <button id="myZinesCreateBtn" class="btn btn-primary">🎨 Create Your First Zine</button>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/my_zines.js') }}"></script>
+{% endblock %}

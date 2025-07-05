@@ -1,28 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Explore Public Zines</title>
-  <link rel="stylesheet" href="/static/css/style.css">
-</head>
-<body class="blue-theme">
-  <header>
-    <h1>📚 Explore Zines</h1>
-    <nav>
-      <a href="/create">➕ Create Zine</a>
-      <a href="/my-zines">🗂 My Zines</a>
-      <a href="/auth/logout">🚪 Logout</a>
-    </nav>
-  </header>
-  <main id="public-zines">
-    <p>Loading awesome zines...</p>
-  </main>
-  <footer>
-    <p>&copy; <span id="year"></span> ZEINS</p>
-  </footer>
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block title %}Explore Public Zines - ZEINS{% endblock %}
+
+{% block content %}
+    <div class="zines-section">
+        <div class="zines-header">
+            <h2>Public Zines</h2>
+            <button id="refreshPublicZinesBtn" class="btn btn-outline btn-icon-text">
+                <span class="material-icons">refresh</span> Refresh
+            </button>
+        </div>
+
+        <div id="publicZinesContainer" class="zines-grid">
+            <div class="loading">Loading public zines...</div>
+        </div>
+
+        <div id="noPublicZines" class="no-zines" style="display: none;">
+            <h3>No public zines found yet.</h3>
+            <p>Be the first to share your creativity!</p>
+            <button id="browseCreateZineBtn" class="btn btn-primary">🎨 Create Your First Zine</button>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/public_zines.js') }}"></script>
+{% endblock %}

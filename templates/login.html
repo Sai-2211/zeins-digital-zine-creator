@@ -1,58 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - ZEINS</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
-<body>
-    <div class="login-container">
-        <form id="loginForm" class="auth-form">
-            <h2 class="title">Login to ZEINS</h2>
-            <div class="field">
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" required>
-            </div>
-            <div class="field">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Login</button>
-            <div class="alt-action">
-                <p>Don't have an account? <a href="/signup">Sign up</a></p>
-            </div>
-            <div id="loginError" class="error-message" style="display: none;"></div>
-        </form>
+{% extends 'base.html' %}
+
+{% block title %}Login - ZEINS{% endblock %}
+
+{% block content %}
+    <div class="auth-wrapper">
+        <div class="login-container">
+            <form id="loginForm" class="auth-form">
+                <h2 class="title">Login to ZEINS</h2>
+                <div class="field">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required autocomplete="username">
+                </div>
+                <div class="field">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required autocomplete="current-password">
+                </div>
+                <button type="submit" class="btn btn-primary login-btn">Login</button>
+                <div class="alt-action">
+                    <p>Don't have an account? <a href="{{ url_for('signup') }}">Sign up</a></p>
+                </div>
+                <div id="loginError" class="error-message" style="display: none;"></div>
+            </form>
+        </div>
     </div>
-    <script>
-        document.getElementById('loginForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const username = document.getElementById('username').value.trim();
-            const password = document.getElementById('password').value.trim();
-            const errorDiv = document.getElementById('loginError');
+{% endblock %}
 
-            try {
-                const response = await fetch('/auth/login', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({username, password})
-                });
-                const data = await response.json();
-
-                if (!response.ok) {
-                    throw new Error(data.error || 'Login failed.');
-                }
-
-                // Redirect to homepage upon successful login
-                window.location.href = '/';
-
-            } catch (err) {
-                errorDiv.textContent = err.message;
-                errorDiv.style.display = 'block';
-            }
-        });
-    </script>
-</body>
-</html>
-
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/auth.js') }}"></script>
+{% endblock %}

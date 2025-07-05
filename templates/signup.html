@@ -1,59 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up - ZEINS</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
-<body>
-    <div class="login-container">
-        <form id="signupForm" class="auth-form">
-            <h2 class="title">Join ZEINS</h2>
-            <div class="field">
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" required minlength="3">
-                <small>At least 3 characters</small>
-            </div>
-            <div class="field">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required minlength="6">
-                <small>At least 6 characters</small>
-            </div>
-            <button type="submit" class="btn btn-primary">Create Account</button>
-            <div class="alt-action">
-                <p>Already have an account? <a href="/login">Log in</a></p>
-            </div>
-            <div id="signupError" class="error-message" style="display: none;"></div>
-        </form>
+{% extends 'base.html' %}
+
+{% block title %}Sign Up - ZEINS{% endblock %}
+
+{% block content %}
+    <div class="auth-wrapper">
+        <div class="signup-container">
+            <form id="signupForm" class="auth-form">
+                <h2 class="title">Join ZEINS</h2>
+                <div class="field">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required minlength="3" autocomplete="new-username">
+                    <small>At least 3 characters</small>
+                </div>
+                <div class="field">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required minlength="6" autocomplete="new-password">
+                    <small>At least 6 characters</small>
+                </div>
+                <button type="submit" class="btn btn-primary signup-btn">Create Account</button>
+                <div class="alt-action">
+                    <p>Already have an account? <a href="{{ url_for('login') }}">Log in</a></p>
+                </div>
+                <div id="signupError" class="error-message" style="display: none;"></div>
+            </form>
+        </div>
     </div>
-    <script>
-        document.getElementById('signupForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const username = document.getElementById('username').value.trim();
-            const password = document.getElementById('password').value.trim();
-            const errorDiv = document.getElementById('signupError');
+{% endblock %}
 
-            try {
-                const response = await fetch('/auth/signup', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({username, password})
-                });
-                const data = await response.json();
-
-                if (!response.ok) {
-                    throw new Error(data.error || 'Signup failed.');
-                }
-
-                // Redirect to homepage upon successful signup
-                window.location.href = '/';
-
-            } catch (err) {
-                errorDiv.textContent = err.message;
-                errorDiv.style.display = 'block';
-            }
-        });
-    </script>
-</body>
-</html>
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/auth.js') }}"></script>
+{% endblock %}
